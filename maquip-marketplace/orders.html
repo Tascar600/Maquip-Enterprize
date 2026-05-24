@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Orders - Maquip Enterprise</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-brand"><span class="brand-icon">⚡</span>Maquip Enterprise</a>
+      <div class="nav-links">
+        <a href="index.html">Home</a><a href="products.html">Products</a><a href="products.html?category=laptops">Laptops</a><a href="products.html?category=accessories">Accessories</a><a href="products.html?category=printers">Printers</a>
+      </div>
+      <div class="nav-actions">
+        <div class="customer-bar" id="customerBar"></div>
+        <a href="cart.html" class="cart-btn"><span>🛒</span><span class="cart-badge" id="cartBadge">0</span></a>
+        <button class="theme-toggle" id="themeToggle">🌙</button>
+        <button class="search-toggle" id="searchToggle">🔍</button>
+        <button class="menu-toggle" id="menuToggle">☰</button>
+      </div>
+    </div>
+  </nav>
+  <div class="mobile-menu" id="mobileMenu">...</div>
+  <div class="search-overlay" id="searchOverlay">...</div>
+  <div class="modal-overlay" id="authModal">...</div>
+  <section class="page-banner">
+    <div class="container">
+      <h1>My Orders</h1>
+      <p>Track and manage your orders</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <div class="empty-state" id="ordersGuest" style="display:none;">
+        <span class="empty-icon">🔒</span>
+        <h3>Sign In Required</h3>
+        <p>Please sign in to view your orders</p>
+        <button class="btn btn-primary mt-2" onclick="openAuthModal()">Sign In</button>
+      </div>
+      <div class="empty-state" id="ordersEmpty" style="display:none;">
+        <span class="empty-icon">📦</span>
+        <h3>No orders yet</h3>
+        <p>Place your first order to see it here</p>
+        <a href="products.html" class="btn btn-primary btn-lg mt-2">Browse Products</a>
+      </div>
+      <div id="ordersList"></div>
+    </div>
+  </section>
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand"><h3>⚡ Maquip Enterprise</h3><p>Your trusted partner for premium IT equipment and accessories.</p></div>
+        <div><h4>Quick Links</h4><div class="footer-links"><a href="products.html">All Products</a><a href="cart.html">🛒 Cart</a></div></div>
+        <div><h4>Contact</h4><div class="footer-links"><a href="tel:+263775699885">+263 775 699 885</a></div></div>
+      </div>
+      <div class="footer-bottom"><span>&copy; 2024 Maquip Enterprise</span></div>
+    </div>
+  </footer>
+  <div class="toast-container" id="toastContainer"></div>
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

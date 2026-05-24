@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maquip Enterprise - Premium IT Equipment Marketplace</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-brand"><span class="brand-icon">⚡</span>Maquip Enterprise</a>
+      <div class="nav-links">
+        <a href="index.html" class="active">Home</a>
+        <a href="products.html">Products</a>
+        <a href="products.html?category=laptops">Laptops</a>
+        <a href="products.html?category=accessories">Accessories</a>
+        <a href="products.html?category=printers">Printers</a>
+      </div>
+      <div class="nav-actions">
+        <div class="customer-bar" id="customerBar"></div>
+        <a href="cart.html" class="cart-btn" id="cartBtn" title="Cart">🛒<span class="cart-badge" id="cartBadge">0</span></a>
+        <button class="theme-toggle" id="themeToggle" title="Theme">🌙</button>
+        <button class="search-toggle" id="searchToggle" title="Search">🔍</button>
+        <button class="menu-toggle" id="menuToggle" title="Menu">☰</button>
+      </div>
+    </div>
+  </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Home</a>
+    <a href="products.html">All Products</a>
+    <a href="products.html?category=laptops">Laptops</a>
+    <a href="products.html?category=accessories">Accessories</a>
+    <a href="products.html?category=printers">Printers</a>
+    <a href="products.html?category=scanners">Scanners</a>
+    <a href="products.html?category=laptop-parts">Laptop Parts</a>
+    <a href="products.html?category=networking">Networking</a>
+    <a href="products.html?category=storage">Storage</a>
+    <a href="products.html?category=monitors">Monitors</a>
+    <a href="cart.html">🛒 Cart</a>
+    <a href="orders.html">📦 My Orders</a>
+  </div>
+  <div class="search-overlay" id="searchOverlay">
+    <button class="search-close" id="searchClose">✕</button>
+    <div class="search-box">
+      <input type="text" id="globalSearch" placeholder="Search products, categories, descriptions..." autofocus>
+      <div id="searchResults" style="margin-top:16px;"></div>
+    </div>
+  </div>
+  <div class="modal-overlay" id="authModal">
+    <div class="modal">
+      <button class="modal-close" id="authModalClose">✕</button>
+      <div style="text-align:center;font-size:36px;margin-bottom:8px;">👤</div>
+      <h2 style="text-align:center;">Sign In</h2>
+      <p style="text-align:center;">Sign in or create an account to start shopping</p>
+      <div class="auth-tabs">
+        <button class="auth-tab active" data-auth="login">Sign In</button>
+        <button class="auth-tab" data-auth="register">Register</button>
+      </div>
+      <form class="auth-form active" id="loginForm">
+        <div class="form-group"><label>Email Address</label><input type="email" id="loginEmail" placeholder="you@example.com" required></div>
+        <div class="form-group"><label>Password</label><input type="password" id="loginPassword" placeholder="Enter password" required></div>
+        <div id="loginError" style="color:#e74c3c;font-size:13px;margin-bottom:12px;display:none;"></div>
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Sign In</button>
+        <div class="form-footer">Don't have an account? <a onclick="switchAuthTab('register')">Register here</a></div>
+      </form>
+      <form class="auth-form" id="registerForm">
+        <div class="form-row">
+          <div class="form-group"><label>Full Name *</label><input type="text" id="regName" placeholder="John Doe" required></div>
+          <div class="form-group"><label>Phone</label><input type="tel" id="regPhone" placeholder="+254 7XX XXX XXX"></div>
+        </div>
+        <div class="form-group"><label>Email Address *</label><input type="email" id="regEmail" placeholder="you@example.com" required></div>
+        <div class="form-group"><label>Password *</label><input type="password" id="regPassword" placeholder="Create a password" required></div>
+        <div class="form-group"><label>Delivery Address</label><textarea id="regAddress" placeholder="Your delivery address" rows="2"></textarea></div>
+        <div id="regError" style="color:#e74c3c;font-size:13px;margin-bottom:12px;display:none;"></div>
+        <button type="submit" class="btn btn-secondary" style="width:100%;justify-content:center;">Create Account</button>
+        <div class="form-footer">Already have an account? <a onclick="switchAuthTab('login')">Sign in</a></div>
+      </form>
+    </div>
+  </div>
+  <section class="hero" id="hero">
+    <div class="particles" id="particles"></div>
+    <div class="container">
+      <div class="hero-content">
+        <h1>Your Premier <span>IT Equipment</span> Marketplace</h1>
+        <p>Discover premium laptops, printers, scanners, accessories, and all your IT needs at Maquip Enterprise. Quality guaranteed, prices unbeatable.</p>
+        <div class="hero-buttons">
+          <a href="products.html" class="btn btn-primary btn-lg">Browse Products</a>
+          <a href="products.html?category=laptops" class="btn btn-outline btn-lg">View Laptops</a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat"><h3 id="statProducts">0+</h3><p>Products</p></div>
+          <div class="hero-stat"><h3 id="statCategories">0</h3><p>Categories</p></div>
+          <div class="hero-stat"><h3 id="statStock">0</h3><p>Items in Stock</p></div>
+        </div>
+      </div>
+      <div class="hero-image">
+        <div class="hero-image-wrapper">
+          <div class="hero-image-main">🖥️</div>
+          <div class="hero-badge"><span>Trusted</span>Since 2024</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section" id="categoriesSection">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">Categories</span>
+        <h2>Browse by Category</h2>
+        <p>Find exactly what you need from our wide range of IT products</p>
+      </div>
+      <div class="categories-grid" id="categoriesGrid"></div>
+    </div>
+  </section>
+  <section class="section" style="background: var(--bg);" id="featuredSection">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">Featured</span>
+        <h2>Featured Products</h2>
+        <p>Our handpicked selection of top-quality IT equipment</p>
+      </div>
+      <div class="products-grid" id="featuredGrid"></div>
+      <div class="text-center mt-3"><a href="products.html" class="btn btn-primary btn-lg">View All Products →</a></div>
+    </div>
+  </section>
+  <section class="section" id="recentSection">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">New Arrivals</span>
+        <h2>Recently Added</h2>
+        <p>Check out our latest additions to the catalog</p>
+      </div>
+      <div class="products-grid" id="recentGrid"></div>
+    </div>
+  </section>
+  <section class="contact-section" id="contact">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">Contact</span>
+        <h2>Get In Touch</h2>
+        <p>Have a question? Send us a message and we'll get back to you</p>
+      </div>
+      <div class="contact-grid">
+        <div>
+          <form id="contactForm">
+            <div class="form-group"><label>Your Name *</label><input type="text" id="contactName" placeholder="John Doe" required></div>
+            <div class="form-group"><label>Email Address *</label><input type="email" id="contactEmail" placeholder="you@example.com" required></div>
+            <div class="form-group"><label>Message *</label><textarea id="contactMessage" placeholder="How can we help you?" rows="5" required></textarea></div>
+            <button type="submit" class="btn btn-primary">Send Message →</button>
+          </form>
+        </div>
+        <div>
+          <div class="contact-info-item"><div class="contact-icon">📞</div><div><h4>Phone</h4><p>+263 775 699 885</p></div></div>
+          <div class="contact-info-item"><div class="contact-icon">📍</div><div><h4>Location</h4><p>Kadoma</p></div></div>
+          <div class="contact-info-item"><div class="contact-icon">🕐</div><div><h4>Business Hours</h4><p>Mon - Fri: 8:00 AM - 5:00 PM<br>Sat: 8:00 AM - 1:00 PM</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section" style="background: var(--bg);">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">Testimonials</span>
+        <h2>What Our Clients Say</h2>
+        <p>Trusted by businesses and individuals across the region</p>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p>"Maquip Enterprise supplied our entire office with laptops and printers. The quality was exceptional and the prices were the best we found."</p>
+          <div class="testimonial-author"><div class="avatar">JK</div><div><h4>James Kariuki</h4><span>CEO, TechCorp Ltd</span></div></div>
+        </div>
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p>"I've been buying my IT equipment from Maquip for over a year. Their customer service is outstanding and delivery is always on time."</p>
+          <div class="testimonial-author"><div class="avatar">SM</div><div><h4>Sarah Mwangi</h4><span>IT Manager, EduTech</span></div></div>
+        </div>
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p>"The best selection of laptop parts and accessories in the region. Highly recommended for anyone looking for quality IT products."</p>
+          <div class="testimonial-author"><div class="avatar">PO</div><div><h4>Peter Otieno</h4><span>Freelance Developer</span></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <div class="newsletter">
+        <h2>Stay Updated</h2>
+        <p>Get notified about new products, special offers, and tech news</p>
+        <form class="newsletter-form" id="newsletterForm">
+          <input type="email" placeholder="Enter your email address" required>
+          <button type="submit" class="btn btn-secondary btn-lg">Subscribe</button>
+        </form>
+      </div>
+    </div>
+  </section>
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand"><h3>⚡ Maquip Enterprise</h3><p>Your trusted partner for premium IT equipment and accessories. We provide high-quality tech products at competitive prices with exceptional customer service.</p></div>
+        <div><h4>Quick Links</h4><div class="footer-links"><a href="products.html">All Products</a><a href="products.html?category=laptops">Laptops</a><a href="products.html?category=accessories">Accessories</a><a href="products.html?category=printers">Printers</a><a href="cart.html">🛒 Cart</a><a href="orders.html">📦 My Orders</a></div></div>
+        <div><h4>Categories</h4><div class="footer-links"><a href="products.html?category=laptops">Laptops</a><a href="products.html?category=laptop-parts">Laptop Parts</a><a href="products.html?category=networking">Networking</a><a href="products.html?category=storage">Storage</a><a href="products.html?category=monitors">Monitors</a></div></div>
+        <div><h4>Contact</h4><div class="footer-links"><a href="tel:+263775699885">+263 775 699 885</a><a>Kadoma</a></div></div>
+      </div>
+      <div class="footer-bottom"><span>&copy; 2024 Maquip Enterprise. All rights reserved.</span><span>Powered by Excellence ✦</span></div>
+    </div>
+  </footer>
+  <div class="toast-container" id="toastContainer"></div>
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

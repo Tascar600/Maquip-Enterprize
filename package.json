@@ -1,0 +1,12 @@
+{
+  "name": "maquip-enterprise-marketplace",
+  "version": "1.0.0",
+  "description": "Maquip Enterprise - Premium IT Equipment Marketplace",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

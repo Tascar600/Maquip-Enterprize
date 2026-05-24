@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Maquip Enterprise</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    #loginPage { display:flex; align-items:center; justify-content:center; min-height:100vh; padding:20px; background:var(--bg); }
+    #loginPage .login-card { max-width:400px; width:100%; padding:32px; background:var(--bg-card); border:1px solid var(--border); border-radius:12px; }
+    #loginPage .login-card h1 { text-align:center; margin-bottom:8px; }
+    #loginPage .login-card p { text-align:center; color:var(--text-light); margin-bottom:24px; }
+    .admin-layout { display:grid; grid-template-columns:220px 1fr; min-height:calc(100vh - 64px); }
+    .admin-sidebar { background:var(--bg-alt); border-right:1px solid var(--border); padding:16px 0; position:sticky; top:64px; height:calc(100vh - 64px); overflow-y:auto; }
+    .admin-sidebar a { display:flex; align-items:center; gap:10px; padding:12px 20px; font-size:14px; font-weight:500; color:var(--text-light); text-decoration:none; transition:var(--transition); }
+    .admin-sidebar a:hover, .admin-sidebar a.active { background:var(--bg); color:var(--primary); }
+    .admin-sidebar .brand { font-size:13px; padding:8px 20px 16px; color:var(--text-light); border-bottom:1px solid var(--border); margin-bottom:8px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; }
+    .admin-content { padding:24px; overflow-y:auto; }
+    .tab-content { display:none; }
+    .tab-content.active { display:block; }
+    .admin-toolbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px; }
+    .product-thumb { width:40px; height:40px; border-radius:6px; object-fit:cover; }
+    .product-thumb-placeholder { width:40px; height:40px; border-radius:6px; background:var(--bg-alt); display:flex; align-items:center; justify-content:center; font-size:18px; }
+    .stat-card { display:flex; align-items:center; gap:16px; padding:20px; background:var(--bg-card); border:1px solid var(--border); border-radius:12px; transition:var(--transition); }
+    .stat-card:hover { box-shadow:var(--shadow-lg); transform:translateY(-2px); }
+    .stat-icon { width:48px; height:48px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0; }
+    .stat-value { font-size:24px; font-weight:800; line-height:1; margin-bottom:4px; }
+    .stat-label { font-size:13px; color:var(--text-light); }
+    .stats-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(180px,1fr)); gap:16px; margin-bottom:32px; }
+    .admin-table { width:100%; border-collapse:collapse; }
+    .admin-table th { text-align:left; padding:10px 12px; font-size:12px; color:var(--text-light); text-transform:uppercase; letter-spacing:0.5px; border-bottom:2px solid var(--border); font-weight:600; }
+    .admin-table td { padding:10px 12px; font-size:14px; border-bottom:1px solid var(--border); }
+    .admin-table tr:hover td { background:var(--bg-alt); }
+    .badge { display:inline-block; padding:3px 10px; border-radius:50px; font-size:11px; font-weight:600; }
+    .modal-overlay { display:none; position:fixed; inset:0; z-index:2000; background:rgba(0,0,0,0.5); align-items:center; justify-content:center; padding:20px; }
+    .modal-overlay.active { display:flex; }
+    .image-upload-area { border:2px dashed var(--border); border-radius:8px; padding:24px; text-align:center; cursor:pointer; transition:var(--transition); }
+    .image-upload-area:hover { border-color:var(--primary); background:rgba(37,99,235,0.05); }
+    .image-preview { display:inline-flex; position:relative; margin:4px; }
+    .image-preview img { width:80px; height:80px; object-fit:cover; border-radius:6px; border:1px solid var(--border); }
+    .image-preview .remove { position:absolute; top:-6px; right:-6px; width:20px; height:20px; border-radius:50%; background:#e74c3c; color:white; border:none; cursor:pointer; font-size:12px; display:flex; align-items:center; justify-content:center; }
+    .spec-entry { display:flex; gap:8px; margin-bottom:8px; }
+    .spec-entry input { flex:1; padding:8px 12px; border:1px solid var(--border); border-radius:6px; font-size:13px; background:var(--bg); color:var(--text); }
+    .spec-entry .remove-spec, .spec-entry button { padding:8px 12px; border:none; border-radius:6px; cursor:pointer; background:#e74c3c; color:white; font-size:12px; }
+    .image-preview-item { display:inline-flex; position:relative; margin:4px; }
+    .image-preview-item img { width:80px; height:80px; object-fit:cover; border-radius:6px; border:1px solid var(--border); }
+    .image-preview-item .remove-image { position:absolute; top:-6px; right:-6px; width:20px; height:20px; border-radius:50%; background:#e74c3c; color:white; border:none; cursor:pointer; font-size:12px; display:flex; align-items:center; justify-content:center; }
+    .order-status-filter { padding:8px 12px; border:1px solid var(--border); border-radius:6px; font-size:13px; background:var(--bg); color:var(--text); }
+    .actions { display:flex; gap:4px; }
+    .actions button { padding:4px 10px; border:none; border-radius:4px; cursor:pointer; font-size:11px; font-weight:600; }
+    .btn-view { background:rgba(37,99,235,0.1); color:#2563eb; }
+    .btn-edit { background:rgba(242,153,74,0.1); color:#F2994A; }
+    .btn-delete { background:rgba(231,76,60,0.1); color:#e74c3c; }
+    .query-unread { background:rgba(37,99,235,0.03); }
+  </style>
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-brand"><span class="brand-icon">⚡</span>Maquip Enterprise</a>
+      <div class="nav-links">
+        <a href="index.html">Home</a><a href="products.html">Products</a>
+      </div>
+      <div class="nav-actions">
+        <button class="theme-toggle" id="adminThemeToggle">🌙</button>
+        <button class="menu-toggle" id="menuToggle">☰</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- LOGIN PAGE -->
+  <div id="loginPage">
+    <div class="login-card">
+      <div style="text-align:center;font-size:48px;margin-bottom:8px;">🔐</div>
+      <h1>Admin Login</h1>
+      <p>Sign in to manage your store</p>
+      <div class="form-group"><label>Email</label><input type="email" id="loginUsername" placeholder="admin@maquip.com" value="alienelizabeth2004@gmail.com"></div>
+      <div class="form-group"><label>Password</label><input type="password" id="loginPassword" placeholder="Enter password" value="12345678"></div>
+      <div id="loginError" style="color:#e74c3c;font-size:13px;margin-bottom:12px;display:none;"></div>
+      <button class="btn btn-primary btn-lg btn-full" id="loginBtn">Sign In</button>
+    </div>
+  </div>
+
+  <!-- ADMIN PANEL -->
+  <div id="adminPanel" style="display:none;">
+    <div class="admin-layout">
+      <div class="admin-sidebar">
+        <div class="brand">⚡ Admin Panel</div>
+        <a href="#" data-tab="dashboard" class="active">📊 Dashboard</a>
+        <a href="#" data-tab="products">📦 Products</a>
+        <a href="#" data-tab="add-product">➕ Add Product</a>
+        <a href="#" data-tab="orders">📋 Orders</a>
+        <a href="#" data-tab="queries">💬 Queries</a>
+        <a href="#" data-tab="settings">⚙️ Settings</a>
+        <a href="#" id="logoutBtn" style="margin-top:auto;color:#e74c3c;">🚪 Logout</a>
+      </div>
+      <div class="admin-content">
+
+        <!-- Dashboard -->
+        <div class="tab-content active" id="tab-dashboard">
+          <h2>Dashboard</h2>
+          <p id="dashboardDate"></p>
+          <div class="stats-grid" id="statsGrid"></div>
+          <h3>Recent Products</h3>
+          <table class="admin-table"><thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Stock</th><th>Featured</th></tr></thead><tbody id="recentProductsTable"></tbody></table>
+        </div>
+
+        <!-- Products -->
+        <div class="tab-content" id="tab-products">
+          <div class="admin-toolbar">
+            <h2>All Products</h2>
+            <input type="text" id="adminProductSearch" placeholder="Search products..." style="padding:8px 14px;border:1px solid var(--border);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text);">
+          </div>
+          <table class="admin-table"><thead><tr><th>Image</th><th>Product</th><th>Category</th><th>Price</th><th>Stock</th><th>Featured</th><th>Actions</th></tr></thead><tbody id="productsTableBody"></tbody></table>
+        </div>
+
+        <!-- Add Product -->
+        <div class="tab-content" id="tab-add-product">
+          <h2 id="formTitle">Add New Product</h2>
+          <span id="editProductId" style="display:none;font-size:13px;color:var(--primary);margin-bottom:12px;display:block;"></span>
+          <form id="productForm">
+            <div class="form-row">
+              <div class="form-group"><label>Product Name *</label><input type="text" id="prodName" required></div>
+              <div class="form-group"><label>Price (KES) *</label><input type="number" id="prodPrice" min="0" required></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label>Category *</label><select id="prodCategory" required><option value="">Select category</option></select></div>
+              <div class="form-group"><label>Stock Quantity *</label><input type="number" id="prodStock" min="0" required></div>
+            </div>
+            <div class="form-group"><label>Description</label><textarea id="prodDescription" rows="3"></textarea></div>
+            <div class="form-group"><label>Images</label>
+              <div class="image-upload-area" id="imageUploadArea">
+                <p>📁 Click or drag images here</p>
+                <input type="file" id="imageInput" accept="image/*" multiple style="display:none;">
+              </div>
+              <div id="imagePreviewContainer"></div>
+            </div>
+            <div class="form-group"><label>Specifications</label>
+              <div id="specsContainer">
+                <div class="spec-entry"><input type="text" class="spec-key" placeholder="e.g. Processor"><input type="text" class="spec-value" placeholder="e.g. Intel Core i5"></div>
+                <div class="spec-entry"><input type="text" class="spec-key" placeholder="e.g. RAM"><input type="text" class="spec-value" placeholder="e.g. 16GB"></div>
+              </div>
+              <button type="button" class="btn btn-sm btn-outline" onclick="addSpecRow()" style="margin-top:8px;">+ Add Spec</button>
+            </div>
+            <div class="form-group"><label><input type="checkbox" id="prodFeatured"> Featured product</label></div>
+            <div id="productFormError" style="color:#e74c3c;font-size:13px;margin-bottom:12px;display:none;"></div>
+            <button type="submit" class="btn btn-primary btn-lg" id="submitProductBtn" style="justify-content:center;">Add Product →</button>
+          </form>
+        </div>
+
+        <!-- Orders -->
+        <div class="tab-content" id="tab-orders">
+          <div class="admin-toolbar">
+            <h2>Orders</h2>
+            <select class="order-status-filter" id="orderStatusFilter"><option value="all">All Orders</option><option value="pending">Pending</option><option value="confirmed">Confirmed</option><option value="processing">Processing</option><option value="out-for-delivery">Out for Delivery</option><option value="delivered">Delivered</option><option value="cancelled">Cancelled</option></select>
+          </div>
+          <div class="stats-grid" id="orderStatsGrid"></div>
+          <table class="admin-table"><thead><tr><th>Order ID</th><th>Customer</th><th>Items</th><th>Total</th><th>Status</th><th>Date</th><th>Action</th></tr></thead><tbody id="ordersTableBody"></tbody></table>
+        </div>
+
+        <!-- Queries -->
+        <div class="tab-content" id="tab-queries">
+          <div class="admin-toolbar">
+            <h2>Customer Queries</h2>
+            <select class="order-status-filter" id="queryStatusFilter"><option value="all">All</option><option value="unread">Unread</option><option value="read">Read</option></select>
+          </div>
+          <table class="admin-table"><thead><tr><th>Name</th><th>Email</th><th>Message</th><th>Status</th><th>Date</th><th>Action</th></tr></thead><tbody id="queriesTableBody"></tbody></table>
+        </div>
+
+        <!-- Settings -->
+        <div class="tab-content" id="tab-settings">
+          <h2>Settings</h2>
+          <div class="admin-card" style="max-width:500px;">
+            <h3>Store Settings</h3>
+            <form id="settingsForm">
+              <div class="form-group"><label>Company Name</label><input type="text" id="setCompany"></div>
+              <div class="form-group"><label>Contact Email</label><input type="email" id="setEmail"></div>
+              <div class="form-group"><label>Phone</label><input type="tel" id="setPhone"></div>
+              <div class="form-group"><label>About</label><textarea id="setAbout" rows="3"></textarea></div>
+              <button type="submit" class="btn btn-primary">Save Settings</button>
+            </form>
+          </div>
+          <div class="admin-card" style="max-width:500px;">
+            <h3>Change Password</h3>
+            <form id="passwordForm">
+              <div class="form-group"><label>New Password</label><input type="password" id="setPassword" placeholder="Leave blank to keep current"></div>
+              <button type="submit" class="btn btn-primary">Update Password</button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirm Modal -->
+  <div class="modal-overlay" id="confirmModal">
+    <div class="modal" style="max-width:400px;">
+      <button class="modal-close" onclick="closeConfirm()">✕</button>
+      <h3 id="confirmTitle">Confirm</h3>
+      <p id="confirmMessage"></p>
+      <div style="display:flex;gap:12px;margin-top:20px;">
+        <button class="btn btn-outline btn-full" onclick="closeConfirm()">Cancel</button>
+        <button class="btn btn-primary btn-full" id="confirmDeleteBtn" style="background:#e74c3c;border-color:#e74c3c;">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toastContainer"></div>
+  <script src="js/data.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
