@@ -47,7 +47,7 @@ function send(res, code, data) {
 function serveStatic(req, res) {
   let url = req.url.split('?')[0];
   if (url === '/') url = '/index.html';
-  const filePath = path.join(WEB_ROOT, url);
+  const filePath = path.join(WEB_ROOT, url.replace(/^\//, ''));
   if (!filePath.startsWith(WEB_ROOT)) { res.writeHead(403); res.end('Forbidden'); return; }
   const ext = path.extname(filePath);
   const mime = {
